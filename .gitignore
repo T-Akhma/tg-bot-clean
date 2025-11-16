@@ -1,0 +1,22 @@
+# Конфиги и секреты
+.env
+data.json
+data_json
+# Бинарники Go (собранные исполняемые файлы)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Выходы go test / профили / покрытие
+*.out
+
+# IDE и редакторы
+.vscode/
+.idea/
+*.swp
+
+# macOS
+.DS_Store
