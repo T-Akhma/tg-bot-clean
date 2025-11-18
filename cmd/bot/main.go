@@ -29,8 +29,10 @@ func main() {
 		slog.Error("Ошибка создания бота:", "err", err)
 		return
 	}
-	slog.Info("Бот авторизован", "username", bot.Self.UserName)
-
+	slog.Info("Бот авторизован",
+		"username", bot.Self.UserName,
+		"securepaste_base_url", cfg.SecurePasteBaseURL,
+	)
 	encryptionKey := []byte(cfg.EncryptionKey)
 	if l := len(encryptionKey); l != 16 && l != 24 && l != 32 {
 		slog.Error("Некорректная длина ключа шифрования", "len", l)
@@ -68,7 +70,7 @@ func main() {
 			)
 
 			if msg.IsCommand() {
-				handlers.HandleCommand(bot, store, msg)
+				handlers.HandleCommand(bot, store, cfg.SecurePasteBaseURL, msg)
 				continue
 			}
 			handlers.SendText(bot, chatID, "Эхо: "+msg.Text)

@@ -9,8 +9,9 @@ import (
 )
 
 type Config struct {
-	BotToken      string
-	EncryptionKey string
+	BotToken           string
+	EncryptionKey      string
+	SecurePasteBaseURL string
 }
 
 func Load() (Config, error) {
@@ -29,9 +30,15 @@ func Load() (Config, error) {
 		return Config{}, errors.New("TELEGRAM_BOT_TOKEN пуст. Проверь .env в корне проекта")
 	}
 
+	secureBaseURL := os.Getenv("SECUREPASTE_BASE_URL")
+	if secureBaseURL == "" {
+		return Config{}, fmt.Errorf("SECUREPASTE_BASE_URL не задан в .env")
+	}
+
 	cfg := Config{
-		BotToken:      token,
-		EncryptionKey: encKey,
+		BotToken:           token,
+		EncryptionKey:      encKey,
+		SecurePasteBaseURL: secureBaseURL,
 	}
 	return cfg, nil
 }

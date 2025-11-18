@@ -5,17 +5,22 @@ Telegram-бот на Go для безопасного хранения заме�
 
 Репозиторий: https://github.com/T-Akhma/tg-bot-clean  
 
-## Возможности
+## Integration with SecurePaste
 
-- `/start` — проверить, что бот жив и отвечает.
-- `/ping` — ответ `pong 🏓` для быстрой проверки.
-- `/help` — краткая справка по командам.
-- `/remember <текст>` — сохранить заметку для текущего чата.
-- `/last` — показать последнюю сохранённую заметку.
-- `/clear` — забыть сохранённую заметку.
+This bot can also work as a client for the [SecurePaste](https://github.com/T-Akhma/securepaste) service.
 
-Каждый чат (private / group) получает своё отдельное пространство:  
-заметки одного чата недоступны из другого.
+When `SECUREPASTE_BASE_URL` is configured and the SecurePaste server is running, you can use:
+
+- `/spaste <text>` — send a secret to SecurePaste with default TTL (e.g. 10 minutes).
+- `/spaste30s <text>` — secret lives for 30 seconds.
+- `/spaste10m <text>` — secret lives for 10 minutes.
+- `/spaste2h <text>` — secret lives for 2 hours.
+
+The bot sends the secret to SecurePaste via HTTP (`POST /api/pastes`), which:
+- encrypts the content with AES and stores it in PostgreSQL,
+- returns an ID,
+- and the bot responds with a direct API URL to the created paste:
+  `http://127.0.0.1:8080/api/pastes/<id>`.
 
 ## Технологии
 
